@@ -1,0 +1,41 @@
+.tabemap-rating-container {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 8px;
+  font-family: 'Google Sans', Roboto, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  vertical-align: middle;
+}
+
+.tabemap-rating-badge {
+  padding: 2px 4px;
+  border-radius: 2px;
+  color: #333;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.tabemap-rating-badge:hover {
+  text-decoration: underline;
+}
+
+.tabemap-rating-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.tabemap-rating-high {
+  color: #e63b00; /* Orange/Red */
+  font-weight: bold;
+}
+
+.tabemap-rating-mid {
+  color: #333;
+}
+
+.tabemap-rating-low {
+  color: #777;
+}
