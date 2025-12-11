@@ -41,6 +41,7 @@ function checkPlace() {
   // User suggested checking h2 > span
   const h2s = document.querySelectorAll('h2');
   let japaneseName: string | null = null;
+  let japaneseNameEl: HTMLElement | null = null;
   // Regex for Japanese characters (Hiragana, Katakana, Kanji)
   const jpRegex = /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uff9f\u4e00-\u9faf\u3400-\u4dbf]/;
 
@@ -48,11 +49,13 @@ function checkPlace() {
       const span = h2.querySelector('span');
       if (span && span.textContent && jpRegex.test(span.textContent)) {
           japaneseName = span.textContent.trim();
+          japaneseNameEl = span;
           break;
       }
       // Also check raw h2 text just in case
       if (h2.textContent && jpRegex.test(h2.textContent)) {
            japaneseName = h2.textContent.trim();
+           japaneseNameEl = h2;
            break;
       }
   }
@@ -64,7 +67,8 @@ function checkPlace() {
 
   // To avoid re-fetching for the same place, check AFTER resolving the final name
   if (currentPlaceIdentifier === placeName) {
-      injectBadge(placeNameEl);
+      // Re-inject if necessary (e.g. if the element reference changed or was removed)
+      injectBadge(japaneseNameEl || placeNameEl);
       return;
   }
   
@@ -96,12 +100,13 @@ function checkPlace() {
   });
 
   // Inject placeholder
-  injectBadge(placeNameEl);
+  injectBadge(japaneseNameEl || placeNameEl);
 }
 
 function injectBadge(targetTitleEl: HTMLElement) {
-    // Check if already injected
-    if (targetTitleEl.parentElement?.querySelector('.tabemap-rating-container')) return;
+    // Check if already injected (look at next sibling)
+    const nextFn = targetTitleEl.nextElementSibling;
+    if (nextFn && nextFn.classList.contains('tabemap-rating-container')) return;
 
     const container = document.createElement('div');
     container.className = 'tabemap-rating-container';
@@ -111,10 +116,8 @@ function injectBadge(targetTitleEl: HTMLElement) {
         </span>
     `;
     
-    // Insert after the title
-    if (targetTitleEl.parentElement) {
-       targetTitleEl.parentElement.appendChild(container);
-    }
+    // Insert after the target element
+    targetTitleEl.insertAdjacentElement('afterend', container);
 }
 
 // Listen for data from background
