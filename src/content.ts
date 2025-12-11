@@ -156,7 +156,7 @@ function updateBadge(rating: number | null, url: string | null) {
           link.target = '_blank';
           link.className = badge.className;
           link.innerHTML = `
-             <img src="${browser.runtime.getURL('icon.png')}" class="tabemap-rating-icon" onerror="this.style.display='none'">
+             <img src="${browser.runtime.getURL('tabelog-logo.png')}" class="tabemap-rating-icon" onerror="this.style.display='none'">
              ${rating.toFixed(2)}
           `;
           badge.replaceWith(link);
