@@ -15,7 +15,7 @@ const observer = new MutationObserver((mutations) => {
 function checkPlace() {
   // Google Maps uses multiple H1s. "Results" is one of them.
   // The place name is another H1, typically with class 'DUwDvf' or just distinct text.
-  const headings = document.querySelectorAll('h1');
+  const headings = document.querySelectorAll('h1:not(.fontHeadlineSmall)') as NodeListOf<HTMLHeadingElement>;
   let placeNameEl: HTMLElement | null = null;
   let placeName: string | null = null;
 
@@ -25,7 +25,7 @@ function checkPlace() {
           // Verify visibility roughly (if hidden, it might be the wrong one)
           // But usually the active panel H1 is visible.
           if (h1.offsetParent !== null) {
-             placeNameEl = h1;
+             placeNameEl = h1
              placeName = text;
              break; 
           }
@@ -39,7 +39,7 @@ function checkPlace() {
 
   // Experimental: Extract Japanese name if available (often in h2 or subtitle)
   // User suggested checking h2 > span
-  const h2s = document.querySelectorAll('h2');
+  const h2s = document.querySelectorAll('h2.fontBodyMedium') as NodeListOf<HTMLHeadingElement>;
   let japaneseName: string | null = null;
   let japaneseNameEl: HTMLElement | null = null;
   // Regex for Japanese characters (Hiragana, Katakana, Kanji)
@@ -144,7 +144,7 @@ browser.runtime.onMessage.addListener((message: any) => {
 });
 
 function updateBadge(rating: number | null, url: string | null) {
-  const badge = document.querySelector('.tabemap-rating-badge') as HTMLElement;
+  const badge = document.querySelector('.tabemap-rating-badge');
   if (!badge) return;
 
   if (rating) {
